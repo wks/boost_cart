@@ -50,6 +50,12 @@ if not copperrail_registered then
 	})
 end
 
+-- The rules for mesecons-controlled rails are the default rules plus direct below.
+-- This allows players to control the rails by placing mesecon components, such as mese blocks,
+-- directly below the rails.
+local mesecons_rails_rules = table.copy(mesecon.rules.default)
+table.insert(mesecons_rails_rules, { x = 0, y = -1, z = 0})
+
 -- Power rail
 boost_cart:register_rail(":carts:powerrail", {
 	description = "Powered rail",
@@ -71,6 +77,7 @@ boost_cart:register_rail(":carts:powerrail", {
 			action_off = function(pos, node)
 				minetest.get_meta(pos):set_string("cart_acceleration", "0")
 			end,
+			rules = mesecons_rails_rules,
 		},
 	},
 })
@@ -105,6 +112,7 @@ boost_cart:register_rail(":carts:brakerail", {
 			action_off = function(pos, node)
 				minetest.get_meta(pos):set_string("cart_acceleration", "0")
 			end,
+			rules = mesecons_rails_rules,
 		},
 	},
 })
@@ -138,6 +146,7 @@ boost_cart:register_rail("boost_cart:startstoprail", {
 			action_off = function(pos, node)
 				minetest.get_meta(pos):set_string("cart_acceleration", "halt")
 			end,
+			rules = mesecons_rails_rules,
 		},
 	},
 })
